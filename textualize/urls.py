@@ -21,6 +21,7 @@ import textview.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('textview/', textview.views.textview),
+    path('textview/sidebar/', textview.views.sidebar),
     path('texts/', include("texts.urls")),
-    path('textview', textview.views.textview)
 ]

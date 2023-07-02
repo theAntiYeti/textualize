@@ -1,0 +1,28 @@
+Selected Word: <span></span>{{ word_class }}<br />
+<button type="button" class="change-text" id="new">New</button>
+<button type="button" class="change-text" id="learning">Learning</button>
+<button type="button" class="change-text" id="learned">Learned</button>
+
+<script>
+$(".change-text").unbind("click").click(function (){
+    console.log(this.id)
+    let color;
+    switch (this.id) {
+        case "new":
+            color = "red";
+            break;
+        case "learning":
+            color = "yellow";
+            break;
+        case "learned":
+            color = "green";
+            break;
+        default:
+            console.log("Error: id " + this.id + " unrecognised")
+            return;
+    }
+    $(".{{ word_class }}").each(function (){
+        $(this).css('background', color)
+    })
+})
+</script>

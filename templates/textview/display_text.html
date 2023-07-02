@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .sidebar {
+            height: 50%;
+            background-color: aqua;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#box").load("../texts/text", function (responseTxt, statusTxt, jqXHR) {
+                if (statusTxt == "success") {
+                    console.log("New content loaded!")
+                }
+                if (statusTxt == "error") {
+                    console.log("Error: " + jqXHR.status + " " + jqXHR.statusText)
+                }
+
+                $(".word").click(function () {
+                    let selected_word_class = this.className.split(" ")[1]
+                    console.log(selected_word_class)
+
+                    $("#word_sidebar").load("sidebar?word_class=" + selected_word_class).show()
+                })
+            });
+        })
+
+        $(document).on("click", function (event) {
+            if (!$(event.target).closest(".sidebar").length && !$(event.target).closest(".word").length) {
+                $("#word_sidebar").hide()
+            }
+        })
+    </script>
+</head>
+<body>
+<h1>Text</h1>
+<br/>
+
+<div id="box"></div>
+<br/>
+
+<div id="word_sidebar" class="sidebar"></div>
+</body>
+</html>
