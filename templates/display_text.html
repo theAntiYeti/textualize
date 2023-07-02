@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        let selected_word_class;
+        $(document).ready(function () {
+            $("#box").load("texts/text", function (responseTxt, statusTxt, jqXHR){
+                if (statusTxt == "success"){
+                    console.log("New content loaded!")
+                }
+                if (statusTxt == "error"){
+                    console.log("Error: " + jqXHR.status + " " + jqXHR.statusText)
+                }
+
+                $(".word").click(function (){
+                    selected_word_class = this.className.split(" ")[1]
+                    console.log(selected_word_class)
+                    $("#selected_word").html(selected_word_class)
+                })
+            });
+            $(".change-text").click(function (){
+                console.log(this.id)
+                let color;
+                switch (this.id) {
+                    case "new":
+                        color = "red";
+                        break;
+                    case "learning":
+                        color = "yellow";
+                        break;
+                    case "learned":
+                        color = "green";
+                        break;
+                    default:
+                        console.log("Error: id " + this.id + " unrecognised")
+                        return;
+                }
+                $("." + selected_word_class).each(function (){
+                    console.log("count")
+                    $(this).css('background', color)
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+
+    <h1>Text</h1>
+    <br />
+
+    <div id="box"></div>
+    <br />
+
+    <!--TODO: Refactor out into a modal thing.-->
+    Selected Word: <span id="selected_word"></span> <br />
+    <button type="button" class="change-text" id="new">New</button>
+    <button type="button" class="change-text" id="learning">Learning</button>
+    <button type="button" class="change-text" id="learned">Learned</button>
+</body>
+</html>
