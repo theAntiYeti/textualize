@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+import mainpages.views
 import textview.views
 
 urlpatterns = [
@@ -24,4 +25,5 @@ urlpatterns = [
     path('textview/', textview.views.textview),
     path('textview/sidebar/', textview.views.sidebar),
     path('texts/', include("texts.urls")),
+    path('', mainpages.views.selection_page)
 ]

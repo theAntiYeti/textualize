@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        table, th, td {
+            border:1px solid black
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table style="width:100%">
+    {% for text in texts %}
+        <tr>
+            <td><a href="textview?id={{ text.id }}">{{ text.title }}</a></td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
