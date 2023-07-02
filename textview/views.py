@@ -4,7 +4,8 @@ from django.shortcuts import render
 
 
 def textview(request):
-    return render(request, "textview/display_text.html")
+    text_id = request.GET["id"]
+    return render(request, "textview/display_text.html", { "text_id": text_id})
 
 
 def sidebar(request):

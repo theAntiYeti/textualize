@@ -10,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#box").load("../texts/text", function (responseTxt, statusTxt, jqXHR) {
+            $("#box").load("../texts/text?id={{ text_id }}", function (responseTxt, statusTxt, jqXHR) {
                 if (statusTxt == "success") {
                     console.log("New content loaded!")
                 }
@@ -31,7 +31,7 @@
             if (!$(event.target).closest(".sidebar").length && !$(event.target).closest(".word").length) {
                 $("#word_sidebar").hide()
             }
-        })
+        });
     </script>
 </head>
 <body>

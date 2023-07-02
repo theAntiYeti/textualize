@@ -4,12 +4,13 @@ from dataclasses import dataclass
 from django.http import HttpResponse
 from django.shortcuts import render
 
-# TODO: should come from database.
-text = "This is a text made that should be tokenized and returned as HTML. I am adding some more words. this text Text."
+from texts.models import Text
 
 
-# Create your views here.
 def return_text(request):
+    text_id = request.GET["id"]
+    text = Text.objects.get(pk=text_id).text
+
     return HttpResponse("".join(
         token.render() for token in tokenize(text)
     ))
