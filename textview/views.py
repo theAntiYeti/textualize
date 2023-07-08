@@ -1,11 +1,15 @@
 from django.shortcuts import render
 
+from texts.models import Text
+
+
 # Create your views here.
 
 
 def textview(request):
     text_id = request.GET["id"]
-    return render(request, "textview/display_text.html", { "text_id": text_id})
+    title = Text.objects.get(id=text_id).title
+    return render(request, "textview/display_text.html", {"text_id": text_id, "title": title})
 
 
 def sidebar(request):
