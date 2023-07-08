@@ -3,5 +3,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("text/", views.return_text)
+    path("text/", views.serve_text),
+    path("word/<str:word>", views.update_word)
 ]

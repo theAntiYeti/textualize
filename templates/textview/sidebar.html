@@ -1,28 +1,29 @@
-Selected Word: <span></span>{{ word_class }}<br />
+Selected Word: {{ word_class }}<br />
 <button type="button" class="change-text" id="new">New</button>
 <button type="button" class="change-text" id="learning">Learning</button>
 <button type="button" class="change-text" id="learned">Learned</button>
+<button type="button" id="clear-text">Clear</button>
 
 <script>
 $(".change-text").unbind("click").click(function (){
+    let progress = this.id
     console.log(this.id)
-    let color;
-    switch (this.id) {
-        case "new":
-            color = "red";
-            break;
-        case "learning":
-            color = "yellow";
-            break;
-        case "learned":
-            color = "green";
-            break;
-        default:
-            console.log("Error: id " + this.id + " unrecognised")
-            return;
-    }
-    $(".{{ word_class }}").each(function (){
-        $(this).css('background', color)
-    })
+    $(".word_{{ word_class }}").each(function (){
+        $(this).removeClass("new");
+        $(this).removeClass("learning");
+        $(this).removeClass("learned");
+        $(this).addClass(progress);
+    });
+    // Callback to server
+    $.get("/texts/word/{{ word_class }}?progress=" + progress)
+});
+$("#clear-text").unbind("click").click(function (){
+        $(".word_{{ word_class }}").each(function (){
+        $(this).removeClass("new");
+        $(this).removeClass("learning");
+        $(this).removeClass("learned");
+    });
+    // Callback to server
+    $.get("/texts/word/{{ word_class }}")
 })
 </script>

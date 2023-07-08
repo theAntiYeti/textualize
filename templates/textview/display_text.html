@@ -6,6 +6,15 @@
             height: 50%;
             background-color: aqua;
         }
+        .new {
+            color: red;
+        }
+        .learning {
+            color: yellow;
+        }
+        .learned {
+            color: green;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
@@ -19,7 +28,7 @@
                 }
 
                 $(".word").click(function () {
-                    let selected_word_class = this.className.split(" ")[1]
+                    let selected_word_class = this.className.split(" ")[1].split("_")[1]
                     console.log(selected_word_class)
 
                     $("#word_sidebar").load("sidebar?word_class=" + selected_word_class).show()

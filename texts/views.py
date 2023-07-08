@@ -1,45 +1,41 @@
-import re
-from dataclasses import dataclass
+from django.http import HttpResponse, HttpResponseBadRequest
 
-from django.http import HttpResponse
-from django.shortcuts import render
-
-from texts.models import Text
+from texts.models import Text, Word
+from texts.src.return_text import return_text
 
 
-def return_text(request):
+def serve_text(request):
     text_id = request.GET["id"]
     text = Text.objects.get(pk=text_id).text
 
-    return HttpResponse("".join(
-        token.render() for token in tokenize(text)
-    ))
+    return HttpResponse(
+        return_text(text)
+    )
 
 
-@dataclass
-class TextToken:
-    text: str
-    attr_class: str
-
-    def render(self) -> str:
-        return f"<span class=\"word word_{self.attr_class}\">{self.text}</span>"
+def update_word(request, word: str):
+    if "progress" not in request.GET:
+        return update_word_delete(word)
+    else:
+        return update_word_put(word, request.GET["progress"])
 
 
-@dataclass
-class SymbolToken:
-    symbol: str
-
-    def render(self) -> str:
-        return self.symbol
+def update_word_delete(word):
+    Word.objects.filter(word=word).delete()
+    return HttpResponse(f'Word deleted')
 
 
-def tokenize(txt: str) -> list[TextToken | SymbolToken]:
-    split_string = re.findall(r'\w+|\W+', txt)
+def update_word_put(word, progress):
+    if progress not in {'new', 'learning', 'learned'}:
+        return HttpResponseBadRequest(f'Progress {progress} invalid.')
 
-    def create_token(chunk):
-        if chunk.isalpha():
-            return TextToken(chunk, chunk.lower())
-        return SymbolToken(chunk)
+    results = Word.objects.filter(word=word)
 
-    return [create_token(chunk) for chunk in split_string]
+    if not results:
+        Word(word=word, progress=progress).save()
+        return HttpResponse(f'New word {word} saved')
 
+    found_word = results[0]
+    found_word.progress = progress
+    found_word.save()
+    return HttpResponse(f'Found word {word} updated')
