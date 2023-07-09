@@ -3,6 +3,7 @@
 <button type="button" class="change-text" id="learning">Learning</button>
 <button type="button" class="change-text" id="learned">Learned</button>
 <button type="button" id="clear-text">Clear</button>
+<button type="button" id="shower">shower</button>
 
 <script>
 $(".change-text").unbind("click").click(function (){
@@ -26,4 +27,16 @@ $("#clear-text").unbind("click").click(function (){
     // Callback to server
     $.get("/texts/word/{{ word_class }}")
 })
+
+$("#shower").click(function () {
+    console.log("")
+    if (!dictionaryWindowVisible) {
+        showDictionary()
+        $("#right-comp").html(
+            "<iframe src=\"https://www.dictionary.com/browse/{{ word_class }}\"></iframe>"
+        )
+    } else {
+        hideDictionary()
+    }
+});
 </script>
